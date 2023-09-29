@@ -35,7 +35,7 @@ const Login = () => {
 
     try {
       // Send a POST request to your API's login endpoint
-      const response = await fetch('http://localhost:3000/users/login', {
+      const response = await fetch('https://cold-bush-9506.fly.dev/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ const Login = () => {
     e.preventDefault();
     try {
       // Send a POST request to your API's login endpoint
-      const response = await fetch('http://localhost:3000/users/register', {
+      const response = await fetch('https://cold-bush-9506.fly.dev/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

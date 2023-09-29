@@ -19,7 +19,7 @@ function RoomsList({currentRoomId, handleRoomChange, handleNewRoom, shouldRefetc
     const fetchRooms = async () => {
       try {
         if (user && user.token) {
-          const response = await fetch('http://localhost:3000/rooms', {
+          const response = await fetch('https://cold-bush-9506.fly.dev/rooms', {
             method: 'GET',
             headers: {
               Authorization: `Bearer ${user.token}`,

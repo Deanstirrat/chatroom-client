@@ -13,43 +13,43 @@ function Dashboard() {
   const [error, setError] = useState(null);
   const [shouldRefetch, setShouldRefetch] = useState(false);
 
-useEffect(() => {
-  const updateRoom = async () => {
-    try{
-      if (user && user.token) {
-        const response = await fetch('http://localhost:3000/rooms/'+currentRoomId, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        });
-        if (response.ok) {
-          const responseData = await response.json();
-          setCurrentRoomData(responseData);
+  useEffect(() => {
+    const updateRoom = async () => {
+      try{
+        if (user && user.token) {
+          const response = await fetch('https://cold-bush-9506.fly.dev/rooms/'+currentRoomId, {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          });
+          if (response.ok) {
+            const responseData = await response.json();
+            setCurrentRoomData(responseData);
+          } else {
+            setError('Request to protected route failed');
+          }
         } else {
-          setError('Request to protected route failed');
+          setError('User is not authenticated');
         }
-      } else {
-        setError('User is not authenticated');
+      }catch(error) {
+        console.log(error);
+        setError('An error occurred');
       }
-    }catch(error) {
-      console.log(error);
-      setError('An error occurred');
     }
-  }
-  if(currentRoomId) updateRoom()
-},[shouldRefetch, user, currentRoomId]);
+    if(currentRoomId) updateRoom()
+  },[shouldRefetch, user, currentRoomId]);
 
-const handleRoomChange = (newRoomId) => {
-  setInitial(false);
-  setCurrentRoomId(newRoomId);
-  setShouldRefetch(!shouldRefetch)
-}
+  const handleRoomChange = (newRoomId) => {
+    setInitial(false);
+    setCurrentRoomId(newRoomId);
+    setShouldRefetch(!shouldRefetch)
+  }
 
   const handleNewMessge = async ({newMessage}) => {
     try{
       if (user && user.token) {
-        const response = await fetch('http://localhost:3000/rooms/'+currentRoomId, {
+        const response = await fetch('https://cold-bush-9506.fly.dev/rooms/'+currentRoomId, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -77,7 +77,7 @@ const handleRoomChange = (newRoomId) => {
   const handleNewRoom = async ({newRoomName}) => {
     try{
       if (user && user.token) {
-        const response = await fetch('http://localhost:3000/rooms', {
+        const response = await fetch('https://cold-bush-9506.fly.dev/rooms', {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${user.token}`,
