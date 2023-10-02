@@ -77,7 +77,7 @@ function RoomsList({currentRoomId, handleRoomChange, handleNewRoom, shouldRefetc
                 variant="secondary"
                 onClick={() => handleNewRoom({newRoomName: newRoomName})}
                 disabled={newRoomName==null ? true : false}>
-                    Submit
+                    new room
             </Button>
         </Stack>
       </Col>

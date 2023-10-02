@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import {Container, Button, Form} from 'react-bootstrap';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { useAuth } from '../components/AuthProvider';
+import styled from 'styled-components';
 
 const Login = () => {
 
@@ -19,6 +20,8 @@ const Login = () => {
     password: '',
     passwordConfirm: '',
   });
+  const [errors, setErrors] = useState(null);
+  const [loginErrors, setLoginErrors] = useState(null);
 
   const handleChangeLoginForm = (e) => {
     const { name, value } = e.target;
@@ -51,6 +54,8 @@ const Login = () => {
       } else {
         // Handle login failure (e.g., show error message)
         console.error('Login failed');
+        const data = await response.json();
+        setLoginErrors(data.message);
       }
     } catch (error) {
       console.error('An error occurred', error);
@@ -61,7 +66,7 @@ const Login = () => {
     e.preventDefault();
     try {
       // Send a POST request to your API's login endpoint
-      const response = await fetch('https://cold-bush-9506.fly.dev/register', {
+      const response = await fetch('https://cold-bush-9506.fly.dev/users/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -76,7 +81,7 @@ const Login = () => {
       } else {
         // Handle login failure (e.g., show error message)
         const data = await response.json();
-        console.log(data);
+        setErrors(data.errors);
         console.error('Registration failed');
       }
     } catch (error) {
@@ -89,7 +94,9 @@ const Login = () => {
       <h1>Dean's Chat Rooms</h1>
       {!newUser && 
         <Container>
-          <Form onSubmit={handleSubmitLogin}>
+          <div className="row justify-content-center">
+            <div className="col-md-6">
+            <Form onSubmit={handleSubmitLogin}>
               <FloatingLabel
                 label="Username"
                 className="mb-3"
@@ -102,9 +109,13 @@ const Login = () => {
               >
               <Form.Control type="password" name='password' id='password' value={loginFormData.password} onChange={handleChangeLoginForm} required />
               </FloatingLabel>
+              {loginErrors && <p>Error: {loginErrors}</p>
+              }
             <button type="submit" className="btn btn-primary">Login</button>
           </Form>
           <Button variant='link' onClick={()=> setNewUser(true)}>New User</Button>
+            </div>
+          </div>
         </Container>}
 
     {newUser && 
@@ -136,9 +147,16 @@ const Login = () => {
               >
               <Form.Control type="password" name='passwordConfirm' id='passwordConfirm' value={registrationFormData.passwordConfirm} onChange={handleChangeRegistrationForm} required />
               </FloatingLabel>
-              <button type="submit" className="btn btn-primary">
-                Register
-              </button>
+              {errors && 
+                <ErrorContainer>
+                  <p>Error:</p>
+                  {errors.map((error) => (<p>{error.msg}</p>))}
+                </ErrorContainer>
+              }
+              <ButtonsContainer>
+                <BackButton variant='secondary' onClick={()=> setNewUser(false)}>back</BackButton>
+                <RegisterButton type="submit" className="btn btn-primary">Register</RegisterButton>
+              </ButtonsContainer>
             </form>
           </div>
         </div>
@@ -148,3 +166,26 @@ const Login = () => {
 }
 
 export default Login;
+
+
+const ErrorContainer = styled.div`
+text-align: left;
+`
+
+
+const ButtonsContainer = styled.div`
+display: flex;
+justify-content: flex-start; /* Justify content to the left */
+align-items: center;
+`
+
+const BackButton = styled(Button)`
+`
+
+const RegisterButton = styled.button`
+margin-left: auto;
+`
+
+
+
+

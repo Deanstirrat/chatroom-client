@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../components/AuthProvider';
-import RoomsList from '../components/RoomsList'
-import { Container, Col, Row } from 'react-bootstrap';
+import { Container, Col, Row} from 'react-bootstrap';
 import Room from '../components/Room';
 import styled from 'styled-components';
+import SideBar from '../components/SideBar';
 
 function Dashboard() {
   const { user } = useAuth();
@@ -108,7 +108,7 @@ function Dashboard() {
       <Row><h1>Dean's Chatrooms</h1></Row>
       <Row>
         <RoomListCol xs={3}>
-          <RoomsList currentRoomId={currentRoomId} handleRoomChange={handleRoomChange} handleNewRoom={handleNewRoom} shouldRefetch={shouldRefetch}/>
+            <SideBar currentRoomId={currentRoomId} handleRoomChange={handleRoomChange} handleNewRoom={handleNewRoom} shouldRefetch={shouldRefetch}/>
         </RoomListCol>
         <RoomCol>
           {initial && <p>Select a room</p>}
@@ -116,7 +116,6 @@ function Dashboard() {
           {currentRoomData && <Room name={currentRoomData.name} messages={currentRoomData.messages} handleNewMessge={handleNewMessge} shouldRefetch={shouldRefetch}/>}
         </RoomCol>
       </Row>
-      {/* <Row><p>Footer</p></Row> */}
     </DashboardContainer>
   );
 }
